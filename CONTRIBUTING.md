@@ -22,10 +22,12 @@ If you're submitting a hackathon project, follow the detailed workflow in [Submi
 
 **Quick Summary:**
 1. Team leader forks the repository
-2. Create a branch: `submission/your-team-name` (or `your-team-name`)
+2. Create a branch: `your-team-name`
 3. Team members collaborate on the leader's fork
 4. Create your submission in `submissions/your-team-name/`
 5. Submit PR from your branch (NOT from `main`)
+
+> 💡 **Prefer using GitHub's web interface?** See the [Web Interface Submission Guide](./SUBMISSION_GUIDELINES.md#-submission-using-github-web-interface) for step-by-step instructions.
 
 ### For General Contributions
 
