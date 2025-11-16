@@ -10,7 +10,9 @@ on:
 jobs:
   backup-prs:
     runs-on: ubuntu-latest
-
+    # Only run on PRs from the same repository (not forks)
+    # For scheduled/manual runs, always run
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -55,10 +57,6 @@ jobs:
             echo "   Branch: $pr_branch"
             echo "   Repository: $pr_owner/$pr_repo"
             
-            # Create temporary directory for this PR
-            tempDir="pr-$pr-$(date +%Y%m%d%H%M%S)"
-            mkdir -p "$tempDir"
-            
             # Save current branch
             current_branch=$(git branch --show-current || echo "main")
             
@@ -68,9 +66,33 @@ jobs:
               echo "   ✅ Successfully checked out PR branch"
             else
               echo "   ❌ Failed to checkout PR #$pr"
-              rm -rf "$tempDir"
               continue
             fi
+            
+            # Extract team name from submission folder
+            team_name=""
+            if [ -d "submissions" ]; then
+              # Find the submission folder (should be only one per PR)
+              submission_folder=$(find submissions -mindepth 1 -maxdepth 1 -type d | head -n 1 | xargs basename 2>/dev/null || echo "")
+              if [ -n "$submission_folder" ] && [ "$submission_folder" != "submissions" ]; then
+                team_name="$submission_folder"
+                echo "   Found team folder: $team_name"
+              fi
+            fi
+            
+            # If no team name found, use PR number as fallback
+            if [ -z "$team_name" ]; then
+              team_name="PR-$pr"
+              echo "   ⚠️  No team folder found, using PR number"
+            fi
+            
+            # Create backup filename with team name and current date
+            current_date=$(date +%Y%m%d)
+            backup_filename="${team_name}_${current_date}"
+            
+            # Create temporary directory for this PR
+            tempDir="pr-$pr-$(date +%Y%m%d%H%M%S)"
+            mkdir -p "$tempDir"
             
             # Copy entire repository contents (complete codebase, not just changes)
             echo "   Copying complete repository contents..."
@@ -95,13 +117,13 @@ jobs:
                 -exec cp -r {} "$tempDir/" \; 2>/dev/null || true
             }
             
-            # Create zip archive with complete PR codebase
-            echo "   Creating backup archive..."
+            # Create zip archive with team name and date
+            echo "   Creating backup archive: $backup_filename.zip"
             cd "$tempDir"
-            zip -r "../backups/PR-$pr-complete.zip" . -q || {
+            zip -r "../backups/${backup_filename}.zip" . -q || {
               echo "   ⚠️  Zip failed, trying tar..."
               cd ..
-              tar -czf "backups/PR-$pr-complete.tar.gz" -C "$tempDir" . || true
+              tar -czf "backups/${backup_filename}.tar.gz" -C "$tempDir" . || true
             }
             cd ..
             
