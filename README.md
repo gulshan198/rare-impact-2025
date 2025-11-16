@@ -44,21 +44,24 @@ To develop innovative digital health solutions that address critical challenges 
 
 1. **Form a Team** (1-5 members)
 2. **Team leader forks this repository**
-3. **Create a branch** (e.g., `submission/your-team-name`) - do NOT work on `main`
+3. **Create a branch** (e.g., `your-team-name`) - do NOT work on `main`
 4. **Create your project** following our [Submission Guidelines](./SUBMISSION_GUIDELINES.md)
 5. **Submit** via Pull Request from your branch by the deadline
 
 > ℹ️ For detailed Git workflow and instructions, see our [Submission Guidelines](./SUBMISSION_GUIDELINES.md#-git-workflow-for-teams) and [Contribution Guide](./CONTRIBUTING.md).
+> 
+> 💡 **Prefer using GitHub's web interface?** Check out our [Web Interface Submission Guide](./SUBMISSION_GUIDELINES.md#-submission-using-github-web-interface)!
 
 ## 📝 Submission Guidelines
 
 Your submission must include:
-- Working prototype or detailed concept
-- Project documentation (README.md)
-- Demo video link
-- Screenshots or screen recordings
+- ✅ Working prototype or detailed concept
+- ✅ Project documentation (`README.md` with team info, country/region, problem statement, solution, tech details)
+- ✅ Demo video link (hosted on YouTube, Vimeo, etc.)
+- ✅ Screenshots or screen recordings
+- ✅ Setup instructions and dependencies
 
-📘 [View complete submission requirements](./SUBMISSION_GUIDELINES.md)
+📘 [View complete submission requirements](./SUBMISSION_GUIDELINES.md) | [Quick Checklist](./submissions/README.md#-quick-checklist)
 
 ## 🏆 Judging Criteria
 
